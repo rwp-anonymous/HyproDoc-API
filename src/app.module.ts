@@ -12,7 +12,7 @@ const config = require('./config/keys');
 @Module({
   imports: [
     MaterialRequisitionNotesModule,
-    MongooseModule.forRoot(config.mongoURI),
+    MongooseModule.forRoot(config.mongoURI, { useNewUrlParser: true }),
   ],
   controllers: [AppController, MaterialRequisitionNotesController],
   providers: [AppService, MaterialRequisitionNotesService],
