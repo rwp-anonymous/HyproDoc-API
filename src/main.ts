@@ -11,6 +11,7 @@ async function bootstrap() {
     .setDescription('REST client documentation for HyproDoc Platform')
     .setVersion('1.0')
     .addTag('hyprodoc')
+    .setSchemes('http', 'https')
     .build();
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup('api', app, document);
