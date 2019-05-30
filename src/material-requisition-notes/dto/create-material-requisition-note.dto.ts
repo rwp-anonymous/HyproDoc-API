@@ -1,9 +1,16 @@
+import {ApiModelProperty} from '@nestjs/swagger';
 export class CreateMaterialRequisitionNoteDto {
-  readonly mrnNo: string;
-  readonly siteLocation: string;
-  readonly requestDate: Date;
-  readonly requestedBy: string;
-  readonly approvedBy: string;
+  @ApiModelProperty() readonly mrnNo: string;
+
+  @ApiModelProperty() readonly siteLocation: string;
+
+  @ApiModelProperty() readonly requestDate: Date;
+
+  @ApiModelProperty() readonly requestedBy: string;
+
+  @ApiModelProperty() readonly approvedBy: string;
+
+  @ApiModelProperty({type: [Object]})
   readonly items:[
     {
       readonly itemNo: string;
