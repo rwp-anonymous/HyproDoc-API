@@ -1,4 +1,12 @@
-import {ApiModelProperty} from '@nestjs/swagger';
+import { ApiModelProperty } from '@nestjs/swagger';
+
+export class Item {
+  @ApiModelProperty() readonly itemNo: string;
+  @ApiModelProperty() readonly itemName: string;
+  @ApiModelProperty() readonly unit: string;
+  @ApiModelProperty() readonly qty: number;
+  @ApiModelProperty() readonly remarks: string;
+}
 export class CreateMaterialRequisitionNoteDto {
   @ApiModelProperty() readonly mrnNo: string;
 
@@ -10,14 +18,6 @@ export class CreateMaterialRequisitionNoteDto {
 
   @ApiModelProperty() readonly approvedBy: string;
 
-  @ApiModelProperty({type: [Object]})
-  readonly items:[
-    {
-      readonly itemNo: string;
-      readonly itemName: string;
-      readonly unit: string;
-      readonly qty: number;
-      readonly remarks: string;
-    }
-  ]
+  @ApiModelProperty({ type: [Item] })
+  readonly items: Item[];
 }
