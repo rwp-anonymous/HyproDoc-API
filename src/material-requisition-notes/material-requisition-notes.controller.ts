@@ -18,30 +18,32 @@ export class MaterialRequisitionNotesController {
   ) {}
 
   @Get()
-  findAll(): MaterialRequisitionNote[] {
+  findAll(): Promise<MaterialRequisitionNote[]> {
     return this.materialRequisitionNotesService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id): MaterialRequisitionNote {
+  findOne(@Param('id') id): Promise<MaterialRequisitionNote> {
     return this.materialRequisitionNotesService.findOne(id);
   }
 
   @Post()
-  create(@Body() createMRNDto: CreateMaterialRequisitionNoteDto): string {
-    return `MRN No: ${createMRNDto.mrnNo}`;
+  create(
+    @Body() createMRNDto: CreateMaterialRequisitionNoteDto,
+  ): Promise<MaterialRequisitionNote> {
+    return this.materialRequisitionNotesService.create(createMRNDto);
   }
 
   @Delete(':id')
-  delete(@Param('id') id): string {
-    return `Delete ${id}`;
+  delete(@Param('id') id): Promise<MaterialRequisitionNote> {
+    return this.materialRequisitionNotesService.delete(id);
   }
 
   @Put(':id')
   update(
     @Body() updateMRNDto: CreateMaterialRequisitionNoteDto,
     @Param('id') id,
-  ): string {
-    return `Update ${id} MRN No: ${updateMRNDto.mrnNo}`;
+  ): Promise<MaterialRequisitionNote> {
+    return this.materialRequisitionNotesService.update(id, updateMRNDto);
   }
 }

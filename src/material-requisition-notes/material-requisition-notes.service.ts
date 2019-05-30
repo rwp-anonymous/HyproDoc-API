@@ -1,57 +1,53 @@
 import { Injectable } from '@nestjs/common';
+import { Model } from 'mongoose';
+import { InjectModel } from '@nestjs/mongoose';
 import { MaterialRequisitionNote } from './interfaces/material-requisition-notes.interface';
 
 @Injectable()
 export class MaterialRequisitionNotesService {
-  private readonly materialRequisitionNotes: MaterialRequisitionNote[] = [
-    {
-      id: '3434343434',
-      mrnNo: 'MRN-10',
-      siteLocation: 'Kampala',
-      requestDate: new Date('22 May 2019'),
-      requestedBy: 'Kamal',
-      approvedBy: 'Nimal',
-      items: [
-        {
-          itemNo: 'Item-1',
-          itemName: 'Item One',
-          unit: 'Kg',
-          qty: 2,
-          remarks: 'None',
-        },
-      ],
-    },
-    {
-      id: '54545454',
-      mrnNo: 'MRN-20',
-      siteLocation: 'Colombo',
-      requestDate: new Date('29 May 2019'),
-      requestedBy: 'Sunil',
-      approvedBy: 'Srimal',
-      items: [
-        {
-          itemNo: 'Item-2',
-          itemName: 'Item Two',
-          unit: 'Kg',
-          qty: 10,
-          remarks: 'None',
-        },
-        {
-          itemNo: 'Item-2',
-          itemName: 'Item Two',
-          unit: 'Kg',
-          qty: 10,
-          remarks: 'None',
-        },
-      ],
-    },
-  ];
+  constructor(
+    @InjectModel('MaterialRequisitionNote')
+    private readonly materialRequisitionNoteModel: Model<
+      MaterialRequisitionNote
+    >,
+  ) {}
 
-  findAll(): MaterialRequisitionNote[] {
-    return this.materialRequisitionNotes;
+  async findAll(): Promise<MaterialRequisitionNote[]> {
+    return await this.materialRequisitionNoteModel.find();
   }
 
-  findOne(id: string): MaterialRequisitionNote {
-    return this.materialRequisitionNotes.find(mrn => mrn.id === id);
+  async findOne(id: string): Promise<MaterialRequisitionNote> {
+    return await this.materialRequisitionNoteModel.findOne({ _id: id });
+  }
+
+  async create(
+    materialRequisitionNote: MaterialRequisitionNote,
+  ): Promise<MaterialRequisitionNote> {
+    const newMRN = new this.materialRequisitionNoteModel(
+      materialRequisitionNote,
+    );
+    return await newMRN.save();
+  }
+
+  /**
+   * To Do:
+   * For Auditing Purposes
+   * We cannot deleted docs.
+   * Add a visibilty field and decide the
+   * response depending on it.
+   */
+  async delete(id: string): Promise<MaterialRequisitionNote> {
+    return await this.materialRequisitionNoteModel.findByIdAndRemove(id);
+  }
+
+  async update(
+    id: string,
+    materialRequisitionNote: MaterialRequisitionNote,
+  ): Promise<MaterialRequisitionNote> {
+    return await this.materialRequisitionNoteModel.findByIdAndUpdate(
+      id,
+      materialRequisitionNote,
+      { new: true },
+    );
   }
 }
