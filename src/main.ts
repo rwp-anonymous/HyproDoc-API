@@ -4,6 +4,7 @@ import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  app.setGlobalPrefix('api/v1');
 
   /* Swagger Setup */
   const options = new DocumentBuilder()
@@ -12,9 +13,10 @@ async function bootstrap() {
     .setVersion('1.0')
     .addTag('hyprodoc')
     .setSchemes('http', 'https')
+    .setBasePath('api/v1')
     .build();
   const document = SwaggerModule.createDocument(app, options);
-  SwaggerModule.setup('api', app, document);
+  SwaggerModule.setup('api/v1/docs', app, document);
   /* End of Swagger Setup */
 
   app.enableCors();
